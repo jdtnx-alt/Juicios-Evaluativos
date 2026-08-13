@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — SENA Evaluaciones</title>
+  <meta name="description" content="Panel de control del sistema de gestión de juicios evaluativos SENA">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow-2"></div>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">S</div>
+    <div class="brand-text">
+      <span class="brand-name">SENA Evaluaciones</span>
+      <span class="brand-sub">Sistema de Gestión</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-footer">v1.0 · SENA © 2025</div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-sub">Resumen general del sistema</div>
+    </div>
+    <div class="topbar-right">
+      <select class="filter-select" id="dash-ficha-filter" style="margin-right: 8px;">
+        <option value="">Todas las fichas</option>
+      </select>
+      <button class="btn btn-danger" id="btn-reset" style="margin-right: 8px;"><i class="ph ph-trash"></i> Borrar Todo</button>
+      <a href="import.html" class="btn btn-primary"><i class="ph ph-upload-simple"></i> Importar Excel</a>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Stat Cards -->
+    <div class="cards-grid" id="stat-cards">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Panel de Alertas y Proyección (Solo visible cuando se selecciona ficha) -->
+    <div id="ficha-insights" class="charts-grid" style="display:none; margin-top:24px;">
+      <div class="panel">
+        <div class="panel-header" style="color:var(--text);"><span class="panel-title"><i class="ph ph-timer"></i> Proyección de Velocidad</span></div>
+        <div class="panel-body" id="ficha-velocity"></div>
+      </div>
+      <div class="panel" style="border-color: #f59e0b;">
+        <div class="panel-header" style="color:#f59e0b;"><span class="panel-title"><i class="ph ph-warning"></i> Alertas de Calificación Incompleta</span></div>
+        <div class="panel-body" id="ficha-alerts" style="max-height: 300px; overflow-y: auto;"></div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title"><i class="ph ph-chart-pie-slice"></i> Estado de Aprendices</span></div>
+        <div class="panel-body"><div class="chart-wrap"><canvas id="chartEstados"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title"><i class="ph ph-note-pencil"></i> Juicios Evaluativos</span></div>
+        <div class="panel-body"><div class="chart-wrap"><canvas id="chartJuicios"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- Table por ficha -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title"><i class="ph ph-clipboard-text"></i> Resultados por Ficha</span>
+        <a href="fichas.html" class="btn btn-outline btn-sm">Ver todas</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ficha</th>
+              <th>Aprendices</th>
+              <th>Aprobados</th>
+              <th>No Aprobados</th>
+              <th>Por Evaluar</th>
+              <th>% Aprobación</th>
+            </tr>
+          </thead>
+          <tbody id="ficha-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

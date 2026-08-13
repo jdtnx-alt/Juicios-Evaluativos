@@ -1,0 +1,108 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta charset="utf-8">
+    <title>Ficha Técnica - SENA Evaluaciones</title>
+    <style>
+        body { font-family: 'Segoe UI', Calibri, sans-serif; line-height: 1.5; color: #333; margin: 40px; }
+        h1 { color: #39A900; text-align: center; font-size: 24pt; border-bottom: 2px solid #39A900; padding-bottom: 10px; margin-bottom: 30px;}
+        h2 { color: #003B5C; font-size: 14pt; margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        table.meta-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt; }
+        table.meta-table th, table.meta-table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        table.meta-table th { background-color: #f4f4f4; color: #003B5C; width: 30%; font-weight: bold; }
+        ul { margin-bottom: 20px; font-size: 11pt; }
+        li { margin-bottom: 6px; }
+        p { font-size: 11pt; text-align: justify; }
+    </style>
+</head>
+<body>
+
+    <h1>FICHA TÉCNICA DE SOFTWARE</h1>
+
+    <h2>1. Información General del Proyecto</h2>
+    <table class="meta-table">
+        <tr><th>Nombre del Sistema</th><td>SENA Evaluaciones</td></tr>
+        <tr><th>Versión Actual</th><td>1.0</td></tr>
+        <tr><th>Tipo de Software</th><td>Aplicación Web / Dashboard Analítico</td></tr>
+        <tr><th>Estado de Desarrollo</th><td>Producción (Fase 1)</td></tr>
+        <tr><th>Fecha de Documentación</th><td>18 de Mayo de 2026</td></tr>
+    </table>
+
+    <h2>2. Descripción y Propósito del Sistema</h2>
+    <p>Plataforma web diseñada para centralizar, visualizar y gestionar los juicios evaluativos de los aprendices pertenecientes a diversas fichas de caracterización. Permite la carga masiva de datos estructurados mediante archivos Excel y ofrece herramientas analíticas avanzadas, motor de búsqueda en tiempo real y exportación de reportes individuales en PDF para optimizar el seguimiento académico institucional.</p>
+
+    <h2>3. Arquitectura del Sistema</h2>
+    <p>El sistema utiliza una arquitectura <strong>Cliente-Servidor Monolítica</strong> optimizada para despliegues locales o en redes cerradas intranet. Todo el procesamiento de negocio reside en un servidor Node.js que expone una API REST consumida por el frontend mediante peticiones asíncronas (Fetch API), manteniendo el estado del cliente de forma reactiva.</p>
+
+    <h2>4. Stack Tecnológico</h2>
+    <table class="meta-table">
+        <tr><th>Servidor / Backend</th><td>Node.js (Framework: Express.js)</td></tr>
+        <tr><th>Interfaz Web / Frontend</th><td>HTML5, CSS3 Nativo (Variables & Flexbox/Grid), Vanilla JavaScript (ES6+)</td></tr>
+        <tr><th>Motor de Base de Datos</th><td>SQLite3 (Relacional embebida mediante 'better-sqlite3')</td></tr>
+    </table>
+
+    <h2>5. Estructura de Datos y Almacenamiento</h2>
+    <p>La base de datos relacional (<code>sena.db</code>) opera con 3 entidades principales bajo un modelo normalizado para prevenir redundancia de datos:</p>
+    <ul>
+        <li><strong>Tabla 'fichas':</strong> Almacena códigos de ficha, jornadas y nombres de programa.</li>
+        <li><strong>Tabla 'aprendices':</strong> Gestiona identificación (TI/CC), nombres completos, estado de formación e ID de ficha asociada.</li>
+        <li><strong>Tabla 'competencias':</strong> Registra los resultados de aprendizaje individuales, juicios evaluativos, fechas de evaluación y nombre del funcionario evaluador, relacionados mediante llave foránea al aprendiz.</li>
+    </ul>
+
+    <h2>6. Módulos y Funcionalidades Principales</h2>
+    <ul>
+        <li><strong>Módulo de Importación:</strong> Carga masiva mediante archivos Excel (.xlsx/.xls) con prevención estricta de duplicidad y actualización condicional de registros (Upsert).</li>
+        <li><strong>Panel Analítico (Dashboard):</strong> Tarjetas de KPIs (Totales) y visualización gráfica interactiva (barras y anillos) sobre el estado de juicios y proyección evaluativa.</li>
+        <li><strong>Módulo de Aprendices:</strong> Listado paginado con búsqueda en vivo, filtrado multicriterio y perfiles modales con agrupación de competencias.</li>
+        <li><strong>Módulo de Fichas:</strong> Visualización del consolidado de cohortes con conteo calculado de estudiantes vinculados.</li>
+    </ul>
+
+    <h2>7. Exportación y Generación de Reportes</h2>
+    <p>La plataforma cuenta con un motor de renderizado del lado del cliente que captura perfiles completos de aprendices (HTML/CSS) y los exporta dinámicamente como documentos <strong>PDF</strong>. Este proceso distribuye la carga del servidor hacia el hardware del usuario final.</p>
+
+    <h2>8. Diseño de Interfaz y Experiencia de Usuario (UI/UX)</h2>
+    <p>La plataforma adopta el paradigma de diseño <em>Glassmorphism</em>, operando sobre un modo oscuro profundo (#070b14) con elementos UI translúcidos (backdrop-filter: blur) superpuestos sobre halos de luz institucionales (Verde SENA #39A900). Se apoya en micro-interacciones (hover, focus) para mejorar la respuesta táctil visual.</p>
+
+    <h2>9. Requisitos Mínimos de Hardware (Servidor)</h2>
+    <table class="meta-table">
+        <tr><th>Procesador</th><td>Dual-Core a 2.0 GHz o superior</td></tr>
+        <tr><th>Memoria RAM</th><td>2 GB (Recomendado 4 GB para concurrencia)</td></tr>
+        <tr><th>Almacenamiento</th><td>50 MB para instalación base + crecimiento progresivo de base de datos (.db)</td></tr>
+    </table>
+
+    <h2>10. Requisitos Mínimos de Hardware (Cliente)</h2>
+    <table class="meta-table">
+        <tr><th>Procesador</th><td>1.5 GHz o superior</td></tr>
+        <tr><th>Memoria RAM</th><td>2 GB mínimo</td></tr>
+        <tr><th>Resolución de Pantalla</th><td>Optimizada para 1366x768 o superior (con soporte responsivo para móviles)</td></tr>
+    </table>
+
+    <h2>11. Requisitos de Software y Compatibilidad</h2>
+    <ul>
+        <li><strong>Entorno de Servidor:</strong> Node.js versión 14.x.x o superior. Sistema Operativo: Windows, macOS o Linux.</li>
+        <li><strong>Navegadores Soportados:</strong> Google Chrome (v90+), Mozilla Firefox (v88+), Microsoft Edge Chromium, Safari (v14+). <em>Nota: Se requiere soporte para Backdrop-Filter CSS.</em></li>
+    </ul>
+
+    <h2>12. Dependencias de Terceros y Librerías</h2>
+    <table class="meta-table">
+        <tr><th>Librería</th><td>Propósito en el Sistema</td></tr>
+        <tr><td><strong>Multer</strong></td><td>Middleware de Express para subida de archivos 'multipart/form-data'.</td></tr>
+        <tr><td><strong>XLSX (SheetJS)</strong></td><td>Parseo y lectura de hojas de cálculo de Microsoft Excel en backend.</td></tr>
+        <tr><td><strong>Chart.js</strong></td><td>Generación de gráficos estadísticos en canvas HTML (Dashboard).</td></tr>
+        <tr><td><strong>jsPDF / html2canvas</strong></td><td>Generación de reportes PDF a partir de elementos del DOM.</td></tr>
+        <tr><td><strong>Phosphor Icons</strong></td><td>Suite iconográfica vectorial utilizada mediante CDN.</td></tr>
+    </table>
+
+    <h2>13. Seguridad y Control de Acceso</h2>
+    <p>En su versión 1.0 actual, el sistema opera sin un módulo de autenticación (Login), delegando la seguridad perimetral a la infraestructura de red en la cual se despliega (aislamiento en Intranet o acceso local). La prevención de inyección SQL está mitigada mediante consultas preparadas nativas en <code>better-sqlite3</code>.</p>
+
+    <h2>14. Rendimiento y Escalabilidad</h2>
+    <p>El procesamiento asíncrono y la delegación de tareas pesadas al cliente (generación de PDFs y gráficos) alivian la carga del servidor. SQLite3 en modo Journaling WAL provee operaciones de lectura y escritura altamente eficientes para volúmenes de datos bajos a medios (hasta 50,000 registros fluidos).</p>
+
+    <h2>15. Restricciones y Limitaciones Conocidas</h2>
+    <ul>
+        <li>Los archivos de importación Excel deben respetar una estructura de columnas predefinida (Ej: DOCUMENTO, NOMBRES, FICHA, etc.) para su correcto mapeo.</li>
+        <li>Al no contar con persistencia basada en la nube, las copias de seguridad (backups) del archivo <code>sena.db</code> deben realizarse manualmente o mediante scripts externos a nivel de sistema operativo.</li>
+    </ul>
+
+</body>
+</html>

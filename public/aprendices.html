@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendices — SENA Evaluaciones</title>
+  <meta name="description" content="Búsqueda y filtrado de aprendices por ficha, documento y juicio evaluativo">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow-2"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">S</div>
+    <div class="brand-text">
+      <span class="brand-name">SENA Evaluaciones</span>
+      <span class="brand-sub">Sistema de Gestión</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-footer">v1.0 · SENA © 2025</div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Aprendices</div>
+      <div class="topbar-sub">Búsqueda y filtrado por ficha y juicio evaluativo</div>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- Filters -->
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-body" style="padding:16px 20px">
+        <div class="filters-bar">
+          <div class="search-box">
+            <span><i class="ph ph-magnifying-glass"></i></span>
+            <input type="text" id="search-input" placeholder="Buscar por nombre o documento…" autocomplete="off">
+          </div>
+          <select class="filter-select" id="filter-ficha">
+            <option value="">Todas las fichas</option>
+          </select>
+          <select class="filter-select" id="filter-estado">
+            <option value="">Todos los estados</option>
+            <option value="En Formación">En Formación</option>
+            <option value="Retiro Voluntario">Retiro Voluntario</option>
+            <option value="Traslado">Traslado</option>
+          </select>
+          <select class="filter-select" id="filter-juicio">
+            <option value="">Todos los juicios</option>
+            <option value="Aprobado">Aprobado</option>
+            <option value="No Aprobado">No Aprobado</option>
+            <option value="Por Evaluar">Por Evaluar</option>
+          </select>
+          <button class="btn btn-outline btn-sm" id="btn-clear"><i class="ph ph-x"></i> Limpiar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title" id="table-title">Aprendices</span>
+        <span id="total-badge" class="badge badge-gray"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Documento</th>
+              <th>Nombre</th>
+              <th>Estado</th>
+              <th>Ficha</th>
+              <th>% Completado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="aprendices-tbody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalle -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h2 id="modal-nombre">Aprendiz</h2>
+        <div id="modal-doc" style="font-size:13px;color:var(--muted);margin-top:4px"></div>
+      </div>
+      <button class="modal-close" id="modal-close"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-info" id="modal-info"></div>
+      <div style="margin-bottom:14px">
+        <div class="panel-title" style="margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+          <span><i class="ph ph-target"></i> Competencias</span>
+        </div>
+        <div style="margin-bottom: 12px; display:flex; gap:10px;">
+          <div class="search-box" style="flex:1; max-width:none;">
+            <span><i class="ph ph-magnifying-glass"></i></span>
+            <input type="text" id="modal-search" placeholder="Buscar competencia..." autocomplete="off">
+          </div>
+          <select id="modal-filter-juicio" class="filter-select">
+            <option value="">Todos</option>
+            <option value="Aprobado">Aprobado</option>
+            <option value="No Aprobado">No Aprobado</option>
+            <option value="Por Evaluar">Por Evaluar</option>
+          </select>
+        </div>
+        <div class="comp-list" id="modal-comps"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="modal-close-btn">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/aprendices.js"></script>
+</body>
+</html>

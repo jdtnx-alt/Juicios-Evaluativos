@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fichas — SENA Evaluaciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow-2"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">S</div>
+    <div class="brand-text">
+      <span class="brand-name">SENA Evaluaciones</span>
+      <span class="brand-sub">Sistema de Gestión</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-footer">v1.0 · SENA © 2025</div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Fichas</div>
+      <div class="topbar-sub">Gestión de fichas de caracterización</div>
+    </div>
+    <button class="btn btn-primary" id="btn-nueva"><i class="ph ph-plus"></i> Nueva Ficha</button>
+  </header>
+
+  <div class="content">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Fichas registradas</span>
+        <span id="total-fichas" class="badge badge-gray"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Jornada</th>
+              <th>Programa</th>
+              <th>Aprendices</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="fichas-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nueva/editar ficha -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <h2 id="modal-title">Nueva Ficha</h2>
+      <button class="modal-close" id="modal-close"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid" style="grid-template-columns:1fr">
+        <div class="form-group">
+          <label class="form-label">Número de Ficha *</label>
+          <input class="form-control" id="f-numero" placeholder="Ej: 3425801">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jornada</label>
+          <select class="form-control" id="f-jornada">
+            <option value="">— Seleccionar —</option>
+            <option>Mañana</option>
+            <option>Mixta</option>
+            <option>Noche</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Programa</label>
+          <select class="form-control" id="f-programa">
+            <option value="">— Sin programa —</option>
+          </select>
+        </div>
+      </div>
+      <div id="form-error" style="margin-top:12px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="modal-cancel">Cancelar</button>
+      <button class="btn btn-primary" id="modal-save">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/fichas.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importar Excel — SENA Evaluaciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .step-bar { display:flex; gap:0; margin-bottom:28px; }
+    .step {
+      flex:1; text-align:center; padding:12px;
+      font-size:12px; font-weight:600; color:var(--muted);
+      border-bottom:2px solid var(--border);
+      transition:color .2s, border-color .2s;
+    }
+    .step.active  { color:var(--accent); border-color:var(--accent); }
+    .step.done    { color:var(--text);   border-color:var(--border2); }
+    .step-num {
+      display:inline-flex; width:22px; height:22px; border-radius:50%;
+      background:var(--border2); color:var(--muted);
+      align-items:center; justify-content:center;
+      font-size:11px; font-weight:700; margin-bottom:4px;
+    }
+    .step.active .step-num { background:var(--accent); color:#fff; }
+    .step.done   .step-num { background:var(--border2); color:var(--text); }
+
+    .preview-table { font-size:12px; }
+    .preview-table th, .preview-table td { padding:7px 10px; white-space:nowrap; max-width:180px; overflow:hidden; text-overflow:ellipsis; }
+
+    .result-box { border-radius:12px; padding:28px; text-align:center; }
+    .result-box.success { background:rgba(0,166,81,.08); border:1px solid rgba(0,166,81,.25); }
+    .result-box.error   { background:rgba(229,57,53,.08); border:1px solid rgba(229,57,53,.25); }
+    .result-num { font-size:48px; font-weight:800; }
+  </style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow bg-glow-2"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">S</div>
+    <div class="brand-text">
+      <span class="brand-name">SENA Evaluaciones</span>
+      <span class="brand-sub">Sistema de Gestión</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-footer">v1.0 · SENA © 2025</div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Importar Excel</div>
+      <div class="topbar-sub">Carga el reporte de juicios de evaluación</div>
+    </div>
+  </header>
+
+  <div class="content" style="max-width:960px">
+    <!-- Step bar -->
+    <div class="step-bar">
+      <div class="step active" id="step1"><div class="step-num">1</div><br>Seleccionar archivo</div>
+      <div class="step" id="step2"><div class="step-num">2</div><br>Vista previa</div>
+      <div class="step" id="step3"><div class="step-num">3</div><br>Resultado</div>
+    </div>
+
+    <!-- Step 1: Upload -->
+    <div id="pane-upload">
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept=".xlsx,.xls">
+        <div class="upload-icon"><i class="ph ph-upload-simple"></i></div>
+        <div class="upload-title">Arrastra tu archivo Excel aquí</div>
+        <div class="upload-sub">o haz clic para seleccionarlo · .xlsx / .xls</div>
+        <div style="margin-top:20px">
+          <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Seleccionar archivo</button>
+        </div>
+      </div>
+      <div class="alert alert-info" style="margin-top:16px">
+        <i class="ph ph-info"></i> El archivo debe ser el <strong>Reporte de Juicios de Evaluación</strong> exportado del sistema SENA. 
+        Se detectará automáticamente la ficha, programa, aprendices y competencias.
+      </div>
+    </div>
+
+    <!-- Step 2: Preview -->
+    <div id="pane-preview" style="display:none">
+      <div id="meta-section" style="margin-bottom:20px"></div>
+
+      <div class="panel" style="margin-bottom:20px">
+        <div class="panel-header">
+          <span class="panel-title">Vista previa de datos (primeras 5 filas)</span>
+          <span id="preview-count" class="badge badge-blue"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="preview-table">
+            <thead id="preview-thead"></thead>
+            <tbody id="preview-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;justify-content:flex-end">
+        <button class="btn btn-outline" id="btn-back"><i class="ph ph-arrow-left"></i> Volver</button>
+        <button class="btn btn-primary" id="btn-import"><i class="ph ph-download-simple"></i> Importar datos</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Result -->
+    <div id="pane-result" style="display:none">
+      <div id="result-content"></div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px">
+        <button class="btn btn-outline" id="btn-another"><i class="ph ph-upload-simple"></i> Importar otro archivo</button>
+        <a href="aprendices.html" class="btn btn-primary"><i class="ph ph-users"></i> Ver Aprendices</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/import.js"></script>
+</body>
+</html>
