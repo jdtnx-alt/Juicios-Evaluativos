@@ -41,33 +41,38 @@ router.get('/', (req, res) => {
 
   const alertas = [];
   if (ficha) {
-    const competencias = db.prepare(`
-      SELECT je.competencia_nombre, 
-             COUNT(*) as total_evaluaciones,
-             SUM(CASE WHEN je.estado_juicio IN ('Aprobado', 'No Aprobado') THEN 1 ELSE 0 END) as calificados
+    // Detectar Resultados de Aprendizaje donde el docente ya calificó a parte del grupo
+    // pero omitió a uno o varios aprendices (quedaron 'Por Evaluar')
+    const rapsIncompletos = db.prepare(`
+      SELECT je.competencia_nombre, je.resultado_nombre,
+             COUNT(DISTINCT a.id_aprendiz) as total_aprendices,
+             SUM(CASE WHEN je.estado_juicio IN ('Aprobado', 'No Aprobado') THEN 1 ELSE 0 END) as calificados,
+             SUM(CASE WHEN je.estado_juicio = 'Por Evaluar' THEN 1 ELSE 0 END) as por_evaluar
       FROM Aprendiz a
       JOIN JuicioEvaluacion je ON je.id_aprendiz = a.id_aprendiz
       WHERE a.estado = 'En Formación' AND a.id_ficha = ? AND je.competencia_nombre IS NOT NULL
-      GROUP BY je.competencia_nombre
-      HAVING (SUM(CASE WHEN je.estado_juicio IN ('Aprobado', 'No Aprobado') THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) >= 0.8
-         AND SUM(CASE WHEN je.estado_juicio IN ('Aprobado', 'No Aprobado') THEN 1 ELSE 0 END) < COUNT(*)
+      GROUP BY je.competencia_nombre, je.resultado_nombre
+      HAVING calificados > 0 AND por_evaluar > 0
     `).all(ficha);
 
-    for (const c of competencias) {
+    for (const rap of rapsIncompletos) {
       const faltantes = db.prepare(`
-        SELECT DISTINCT a.nombre, a.apellido 
+        SELECT DISTINCT a.nombre, a.apellido
         FROM Aprendiz a
         JOIN JuicioEvaluacion je ON je.id_aprendiz = a.id_aprendiz
-        WHERE a.estado = 'En Formación' AND a.id_ficha = ? 
-          AND je.competencia_nombre = ? 
+        WHERE a.estado = 'En Formación' AND a.id_ficha = ?
+          AND je.resultado_nombre = ?
           AND je.estado_juicio = 'Por Evaluar'
-      `).all(ficha, c.competencia_nombre);
+      `).all(ficha, rap.resultado_nombre);
 
       if (faltantes.length > 0) {
         alertas.push({
-          competencia: c.competencia_nombre,
-          pct: Math.round((c.calificados / c.total_evaluaciones) * 100),
-          faltantes: faltantes.map(f => `${f.nombre} ${f.apellido||''}`.trim())
+          competencia: rap.competencia_nombre,
+          resultado: rap.resultado_nombre,
+          calificados: rap.calificados,
+          total: rap.total_aprendices,
+          pct: Math.round((rap.calificados / rap.total_aprendices) * 100),
+          faltantes: faltantes.map(f => `${f.nombre} ${f.apellido || ''}`.trim())
         });
       }
     }

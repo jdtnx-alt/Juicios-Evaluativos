@@ -396,6 +396,7 @@ select.form-control option { background: var(--bg); color: var(--text); }
 .alert-success { background: rgba(57,169,0,0.1); border: 1px solid rgba(57,169,0,0.3); color: var(--accent2); }
 .alert-error   { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
 .alert-info    { background: rgba(59,130,246,0.1);  border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+.alert-warning { background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
 
 /* ─── Empty State ───────────────────────────────────────────────── */
 .empty-state { text-align: center; padding: 64px 20px; color: var(--muted); }

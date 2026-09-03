@@ -179,19 +179,21 @@ async function loadDashboard() {
     // Alertas
     if (data.alertas && data.alertas.length > 0) {
       document.getElementById('ficha-alerts').innerHTML = data.alertas.map(a => `
-        <div style="background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; padding: 12px; margin-bottom: 12px; border-radius: 4px;">
-          <div style="font-weight:600; font-size:14px; margin-bottom:4px;">${a.competencia}</div>
-          <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">${a.pct}% calificados. Faltan por evaluar:</div>
-          <div style="font-size:12px; color:var(--text); line-height:1.5;">
+        <div style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; padding: 14px; margin-bottom: 14px; border-radius: 8px;">
+          <div style="font-weight:700; font-size:13px; color:var(--text); margin-bottom:4px;">${a.competencia}</div>
+          ${a.resultado ? `<div style="font-size:12px; color:var(--accent2); margin-bottom:6px; font-weight:600;"><i class="ph ph-target"></i> ${a.resultado}</div>` : ''}
+          <div style="font-size:13px; color:var(--muted); margin-bottom:8px;">${a.pct}% del grupo calificado (${a.calificados || ''}/${a.total || ''}). Faltan por evaluar:</div>
+          <div style="font-size:12px; color:var(--text); line-height:1.6;">
             ${a.faltantes.map(x => `• ${x}`).join('<br>')}
           </div>
         </div>
       `).join('');
     } else {
       document.getElementById('ficha-alerts').innerHTML = `
-        <div class="empty-state" style="padding: 20px 0;">
-          <div class="empty-icon" style="font-size:24px;"><i class="ph ph-confetti"></i></div>
-          <p style="font-size:14px;">No hay alertas. Calificaciones al día.</p>
+        <div class="empty-state" style="padding: 24px 0;">
+          <div class="empty-icon" style="font-size:28px; color:var(--accent); margin-bottom:8px;"><i class="ph ph-check-circle"></i></div>
+          <p style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:4px;">Calificaciones al día</p>
+          <p style="font-size:12px; color:var(--muted);">No hay estudiantes omitidos en los resultados de aprendizaje evaluados.</p>
         </div>
       `;
     }

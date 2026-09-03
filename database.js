@@ -44,6 +44,11 @@ db.exec(`
     id_aprendiz        INTEGER,
     FOREIGN KEY (id_aprendiz) REFERENCES Aprendiz(id_aprendiz) ON DELETE CASCADE
   );
+
+  CREATE INDEX IF NOT EXISTS idx_ficha_numero ON Ficha(numero);
+  CREATE INDEX IF NOT EXISTS idx_aprendiz_doc ON Aprendiz(documento);
+  CREATE INDEX IF NOT EXISTS idx_aprendiz_ficha ON Aprendiz(id_ficha);
+  CREATE INDEX IF NOT EXISTS idx_juicio_aprendiz_res ON JuicioEvaluacion(id_aprendiz, resultado_nombre);
 `);
 
 module.exports = db;
